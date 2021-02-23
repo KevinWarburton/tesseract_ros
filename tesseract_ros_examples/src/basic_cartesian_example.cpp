@@ -47,6 +47,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 #include <tesseract_motion_planners/core/utils.h>
 #include <tesseract_visualization/markers/toolpath_marker.h>
 
+// documentation:start:section_1:Setup
 using namespace tesseract_environment;
 using namespace tesseract_scene_graph;
 using namespace tesseract_collision;
@@ -61,9 +62,11 @@ const std::string ROBOT_SEMANTIC_PARAM = "robot_description_semantic";
 
 /** @brief RViz Example Namespace */
 const std::string EXAMPLE_MONITOR_NAMESPACE = "tesseract_ros_examples";
+// documentation:end:section_1:Setup
 
 namespace tesseract_ros_examples
 {
+// documentation:start:section_2:addPointCloud
 Command::Ptr BasicCartesianExample::addPointCloud()
 {
   // Create octomap and add it to the local environment
@@ -107,12 +110,14 @@ Command::Ptr BasicCartesianExample::addPointCloud()
 
   return std::make_shared<tesseract_environment::AddLinkCommand>(link_octomap, joint_octomap);
 }
+// documentation:end:section_2:addPointCloud
 
 BasicCartesianExample::BasicCartesianExample(const ros::NodeHandle& nh, bool plotting, bool rviz)
   : Example(plotting, rviz), nh_(nh)
 {
 }
 
+// documentation:start:section_3:initialization
 bool BasicCartesianExample::run()
 {
   using tesseract_planning::CartesianWaypoint;
@@ -147,6 +152,7 @@ bool BasicCartesianExample::run()
   Command::Ptr cmd = addPointCloud();
   if (!monitor_->applyCommand(cmd))
     return false;
+  // documentation:end:section_3:initialization
 
   // Create plotting tool
   ROSPlottingPtr plotter = std::make_shared<ROSPlotting>(monitor_->getSceneGraph()->getRoot());
@@ -174,6 +180,8 @@ bool BasicCartesianExample::run()
 
   env_->setState(joint_names, joint_pos);
 
+
+  // documentation:start:section_4:create program and plan
   // Create Program
   CompositeInstruction program("cartesian_program", CompositeInstructionOrder::ORDERED, ManipulatorInfo("manipulator"));
 
@@ -239,3 +247,4 @@ bool BasicCartesianExample::run()
 }
 
 }  // namespace tesseract_ros_examples
+// documentation:end:section_4:create program and plan
